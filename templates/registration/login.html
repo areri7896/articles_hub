@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<body class="bg03">
+    <div class="container">
+        <div class="row tm-mt-big">
+            <div class="col-12 mx-auto tm-login-col">
+                <div class="tm-block" style="background-color: #f0f0f0; border-radius: 10px;">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <h1 class="tm-block-title mt-1">Login</h1>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        {% if form.errors %}
+                        <p>you have entered an incorrect username or password</p>
+                        {% endif %}
+                        {% if not user.is_authenticated %}
+                        <h4> Please Login in to complete your download</h4>
+                        {% else %}
+                        <h4>Please Enter your credentials to Login</h4>
+                        {% endif %}
+
+
+                        <div class="col-12">
+                            <form action="" method="post" class="tm-login-form">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <label for="username" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Username</label>
+                                    {{ form.username }}
+                                    <!-- <input name="username" type="text" class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7" id="username" value="admin" required> -->
+                                </div>
+                                <div class="input-group mt-3">
+                                    <label for="password" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">Password</label>
+                                    {{ form.password }}
+                                    <!-- <input name="password" type="password" class="form-control validate" id="password" value="1234" required> -->
+                                </div>
+                                <div class="input-group mt-3">
+                                    <button type="submit" class="btn btn-primary d-inline-block mx-auto w-25" style="border-radius: 25px;">Login</button>
+                                </div>
+                                <div class="input-group mt-3">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
