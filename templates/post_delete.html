@@ -1,0 +1,13 @@
+<!-- templates/post_delete.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+<h1>Delete post</h1>
+<form action="" method="post">{% csrf_token %}
+    <div class="container" style="display:flex; justify-content: space-between;"></div>
+        <p>Are you sure you want to delete <b style="color: #f6466c;">" {{ object.title }} "</b> ?</p>
+        <input style="background-color: red; border: 0; color: #fff; border-radius: 20px;" type="submit" value="Confirm">
+</form>
+</div>
+</div>
+{% endblock content %}

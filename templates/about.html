@@ -3,18 +3,25 @@
 {% block content %}
 <body bgcolor="#f0f0f0" link="#990099" vlink="#009999" text="#000000">
 
-<p style="text-align: center;"><strong>title of the article.</strong>
+<p style="text-align: center;"><strong>{{ post.title }}</strong>
 <br wp="br1" clear="ALL"><br wp="br2" clear="ALL"></p>
-<div class="btt">
-<p>Dear Reader, <br></p>
-<button type="submit" class="btn btn-primary d-flex text-align" style="text-align: center; display: flex;">Download</button>
-</div>
 
-{{ post.description|linebreaks }}
+
+{{ post.body|linebreaks }}
 
 <hr>
+<div style="display: flex; justify-content: space-between;">
+<div >
+     <a href="{% url 'post_edit' post.pk %}">Edit</a>
+     <p><a href="{% url 'post_delete' post.pk %}">Delete</a></p>
+</div>
 <div class="writer" style="text-align: center;">
-     Published {{ art.publish }} by {{ art.author }}
+
+     Published on {{ post.publish }} by {{ post.author }}
+</div>
+<div class="btt" style="align-self: self-end; ">
+     <button type="submit" class="btn btn-primary d-flex text-align d-flex" style="border-radius: 25px;align-self: flex-end;">Download</button>
+</div>
 </div>
 </p>
 </body>
