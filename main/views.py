@@ -56,7 +56,7 @@ def login(request):
 
 def logout_user(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
 
 class BlogUpdateView(UpdateView):
     model = Article
@@ -76,4 +76,3 @@ class BlogCreateView(CreateView):
     model = Article
     template_name = 'post_new.html'
     fields = ['title', 'author', 'body', 'document', ]
-

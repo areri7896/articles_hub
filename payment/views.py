@@ -8,3 +8,7 @@ def payment(request):
     # except Article.DoesNotExist:
     #     raise Http404("No Article found.")
     return render (request, 'payment.html', {})
+
+def receipt(request):
+
+    return render (request, 'receipt.html', {})

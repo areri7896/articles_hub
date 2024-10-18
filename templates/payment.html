@@ -3,8 +3,8 @@
         <title>{% block title %} Payment {% endblock %}</title>
         
         {% block content %}
-        <style>
-          @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap');
 
 * {
     margin: 0;
@@ -45,7 +45,7 @@ p {
 }
 
 .btn.btn-primary {
-    width: 100%;
+    width: 90%;
     height: 50px;
     display: flex;
     align-items: center;
@@ -57,7 +57,8 @@ p {
     transition: 0.5s;
     background-size: 200% auto;
     cursor: pointer;
-    margin-top: 10px;
+    margin: auto;
+    margin:10px 0;
 }
 
 
@@ -114,13 +115,13 @@ p {
                   <div class="col-12">
                       <div class="d-flex flex-column">
                           <p class="text mb-1">Person Name</p>
-                          <input class="form-control mb-3" type="text" placeholder="Name" value="Barry Allen">
+                          <input class="form-control mb-3 w-100" type="text" placeholder="Name" value="Barry Allen">
                       </div>
                   </div>
                   <div class="col-12">
                       <div class="d-flex flex-column">
                           <p class="text mb-1">Card Number</p>
-                          <input class="form-control mb-3" type="text" placeholder="1234 5678 435678">
+                          <input class="form-control mb-3 mx-auto" type="text" placeholder="1234 5678 435678">
                       </div>
                   </div>
                   <div class="col-6">
