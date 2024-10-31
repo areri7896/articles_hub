@@ -10,6 +10,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from django.http import Http404
 
+from django_daraja.mpesa.core import MpesaClient
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from django.http import HttpResponse
+from django.contrib import messages
+# from .query import query_stk_status
+
+
 from . import forms
 # Create your views here.
 def home(request):
@@ -76,3 +84,31 @@ class BlogCreateView(CreateView):
     model = Article
     template_name = 'post_new.html'
     fields = ['title', 'author', 'body', 'document', ]
+
+@login_required
+def mpay(request):
+    if request.method == 'POST':
+        phone_number = request.POST.get('phone')  # Get the phone number from the POST request
+        amount = request.POST.get('amount')  # Get the amount from the POST request
+
+        cl = MpesaClient()
+        account_reference = 'lasio'
+        transaction_desc = 'Pay'
+        callback_url = 'https://api.darajambili.com/express-payment'
+
+            # Call the Mpesa API for payment (STK Push)
+        response = cl.stk_push(phone_number,int(amount), account_reference, transaction_desc, callback_url)
+
+            # Display a success message to the user
+        messages.success(request, f"Payment of {amount} has been initiated. Please check your phone!")
+        return render(request, 'payment_successful.html', {'amount': amount, 'desc': account_reference})
+        # return HttpResponse(f"Payment of {amount} has been initiated. Please check your phone!")
+
+    else:
+        # If it's a GET request, simply display the payment form
+        return render(request, 'payment.html')
+    
+
+def receipt(request):
+
+    return render (request, 'receipt.html', {})

@@ -13,11 +13,11 @@ class Transaction(models.Model):
     phone = models.IntegerField()
     amount = models.IntegerField()
     # title = models.CharField(max_length=250)
-    buyer = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='article_payment'
-        )
+    # buyer = models.ForeignKey(
+    #     settings.AUTH_USER_MODEL,
+    #     on_delete=models.CASCADE,
+    #     related_name='article_payment'
+    #     )
     paid = models.DateTimeField(auto_now=True)
     completed = models.DateTimeField(auto_now_add=True)
     status = models.CharField(

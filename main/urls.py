@@ -23,6 +23,8 @@ from .views import (BlogUpdateView,BlogDeleteView, BlogCreateView)
 
 urlpatterns = [
     path('', main_views.home, name='home'),
+    path('pay/', main_views.mpay, name='pay'),
+    path('receipt/', main_views.receipt, name='receipt'),
     path('logout/', main_views.logout_user, name='logout'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('detail/<int:id>/', main_views.post, name='post_details'),

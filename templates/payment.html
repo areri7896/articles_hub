@@ -19,13 +19,13 @@
     align-items: center;
     min-height: 100vh;
     background-color: #f0f0f0;
-
     padding: 30px 10px;
 }
 
 .card {
-    width: 60vw;
+    width: 50vw;
     margin: auto;
+    padding: auto;
     display: inline-flexbox;
     justify-content: center;
     /* border: 1px solid black; */
@@ -57,7 +57,6 @@ p {
     transition: 0.5s;
     background-size: 200% auto;
     cursor: pointer;
-    margin: auto;
     margin:10px 0;
 }
 
@@ -107,43 +106,40 @@ p {
 }
         </style>
         <body class="bod">
+            <div class="midde_cont">
+                <div class="container-fluid">
+                   <div class="row column_title">
+                      <div class="col-md-12">
+                         <div class="page_title">
+                            <h2 style="margin: 20px; display: flex; justify-content: center;">PURCHASE THE DOCUMENT THROUGH MPESA EXPRESS</h2>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+            
           
-        <div class="container p-0">
-          <div class="card px-4">
+        <div class="container p-2">
+ 
+        <div class="card">
               <p class="h8 py-3">Payment Details</p>
               <div class="row gx-3">
-                  <div class="col-12">
-                      <div class="d-flex flex-column">
-                          <p class="text mb-1">Person Name</p>
-                          <input class="form-control mb-3 w-100" type="text" placeholder="Name" value="Barry Allen">
-                      </div>
-                  </div>
-                  <div class="col-12">
-                      <div class="d-flex flex-column">
-                          <p class="text mb-1">Card Number</p>
-                          <input class="form-control mb-3 mx-auto" type="text" placeholder="1234 5678 435678">
-                      </div>
-                  </div>
-                  <div class="col-6">
-                      <div class="d-flex flex-column">
-                          <p class="text mb-1">Expiry</p>
-                          <input class="form-control mb-3" type="text" placeholder="MM/YYYY">
-                      </div>
-                  </div>
-                  <div class="col-6">
-                      <div class="d-flex flex-column">
-                          <p class="text mb-1">CVV/CVC</p>
-                          <input class="form-control mb-3 pt-2 " type="password" placeholder="***">
-                      </div>
-                  </div>
-                  <div class="col-12">
-                      <div class="btn btn-primary mb-3">
-                          <span class="ps-3">Pay $243</span>
-                          <span class="fas fa-arrow-right"></span>
-                      </div>
-                  </div>
+                <div class="row d-flex justify-content-center" style="margin: auto; padding: auto;">
+                    <form action="{% url 'pay' %}" class="w-100 offset-md-3" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="input-group">
+                            <label class="form-label fw-bold h4" style="padding: 10px;" for="#phone">Phone Number</label><br>
+                            <input name="phone" type="text" id="phone" class="form-control" placeholder="Phone Number" ><br><br><br>
+                         </div>
+                         <div class="input-group">
+                            <label class="form-label fw-bold h4" style="padding: 10px;" for="#amount">Amount</label>
+                            <input name="amount" type="text" id="amount" class="form-control" placeholder="Amount"  ><br><br>
+                         </div>
+                        <button class="btn btn-primary" style="margin:0 auto;" type="submit">pay</button>
+                    </div>
+                    </form>
               </div>
           </div>
       </div>
-      </body>
+ 
 {% endblock %}

@@ -24,7 +24,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('payment/', include('payment.urls')),
+    # path('payment/', include('payment.urls')),
     path("accounts/", include("django.contrib.auth.urls")),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('password_change/', views.PasswordChangeView.as_view(), name='password_change'),
