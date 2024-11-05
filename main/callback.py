@@ -1,5 +1,6 @@
 import json
 from django.http import JsonResponse
+from .models import Trans 
 
 def process_stk_callback(request):
     stk_callback_response = json.loads(request.body)
@@ -19,4 +20,16 @@ def process_stk_callback(request):
         data = Trans(merchant_request_id, checkout_request_id, result_code, result_desc, amount, transaction_id, user_pone_number)
         data.save
 
+        response = daraja.send_stk_push(url=stk_push_url)
+        response_code = response.get('ResponseCode')
+       
+        # Success
+        if response_code == '0':
+            # Update transaction with the CheckoutRequestID if present
+            transaction_id = response.get("CheckoutRequestID")
+            transaction.transaction_id = transaction_id
+            transaction.save()
+
+            return Response(response, status=status.HTTP_200_OK)
         
+    return Response(response, status=status.HTTP_400_BAD_REQUEST)

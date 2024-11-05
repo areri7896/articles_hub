@@ -3,7 +3,7 @@ import json
 import base64
 from datetime import datetime
 from django.http import JsonResponse
-from .genrateAcesstoken import get_access_token
+from django_daraja.mpesa.utils import get_access_token
 
 def query_stk_status(request):
     access_token_response = get_access_token(request)
