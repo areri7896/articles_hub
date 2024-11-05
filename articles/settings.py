@@ -31,7 +31,9 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'https://vj6-meticulous-rumford.circumeo-apps.net']
+
+CSRF_TRUSTED_ORIGINS = ['https://vj6-meticulous-rumford.circumeo-apps.net']
 
 
 # Application definition
@@ -75,7 +77,7 @@ ROOT_URLCONF = 'articles.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'D:/articles/templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

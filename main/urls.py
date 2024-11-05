@@ -19,12 +19,13 @@ from django.conf.urls.static import static
 from django.urls import path, reverse, reverse_lazy
 from django.contrib.auth import views
 from . import views as main_views
-from .views import (BlogUpdateView,BlogDeleteView, BlogCreateView)
+from .views import (BlogUpdateView,BlogDeleteView, BlogCreateView, HandleCallBackView)
 
 urlpatterns = [
     path('', main_views.home, name='home'),
     path('pay/', main_views.mpay, name='pay'),
     path('receipt/', main_views.receipt, name='receipt'),
+    path('clb/', HandleCallBackView.as_view(), name='receipt'),
     path('logout/', main_views.logout_user, name='logout'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('detail/<int:id>/', main_views.post, name='post_details'),

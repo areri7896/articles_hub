@@ -105,7 +105,7 @@ def mpay(request):
         cl = MpesaClient()
         account_reference = 'lasio'
         transaction_desc = 'Pay'
-        callback_url = 'https://api.darajambili.com/express-payment'
+        callback_url = 'https://vj6-meticulous-rumford.circumeo-apps.net/clb'
 
             # Call the Mpesa API for payment (STK Push)
         response = cl.stk_push(phone_number,int(amount), account_reference, transaction_desc, callback_url)
