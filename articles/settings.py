@@ -104,25 +104,16 @@ DATABASES = {
 # cat myproject/settings.py
 
 
-# DATABASES = {
-
-#     'default': {
-
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
-#         'NAME': ‘<db_name>’,
-
-#         'USER': '<db_username>',
-
-#         'PASSWORD': '<password>',
-
-#         'HOST': '<db_hostname_or_ip>',
-
-#         'PORT': '<db_port>',
-
-#     }
-
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ["POSTGRES_DB"],
+        "USER": os.environ["POSTGRES_USER"],
+        "PASSWORD": os.environ["POSTGRES_PASSWORD"],
+        "HOST": os.environ["POSTGRES_HOST"],
+        "PORT": os.environ["POSTGRES_PORT"],
+    }
+}
 
 
 # Password validation
