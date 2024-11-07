@@ -29,6 +29,11 @@ from rest_framework.permissions import AllowAny
 from datetime import datetime
 
 
+from rest_framework.response import Response
+from rest_framework import status
+from datetime import datetime
+from main.models import MPesaTransaction
+
 from . import forms
 # Create your views here.
 def home(request):
@@ -126,60 +131,104 @@ def receipt(request):
 
 
 
-class HandleCallBackView(APIView):
-    permission_classes = [AllowAny]
+# class HandleCallBackView(self, validated_data):
+#     permission_classes = [AllowAny]
 
-    def post(self, request, *args, **kwargs):
-        # Assuming request.data contains the M-Pesa callback data
-        mpesa_post_data = request.data
+#     def post(self, request, *args, **kwargs):
+#         # Assuming request.data contains the M-Pesa callback data
+#         mpesa_post_data = request.data
       
         
-        try:
-            # Extract necessary fields
-            result_code = mpesa_post_data['Body']['stkCallback']['ResultCode']
+#         try:
+#             # Extract necessary fields
+#             result_code = mpesa_post_data['Body']['stkCallback']['ResultCode']
         
-            if result_code == 0:
+#             if result_code == 0:
 
-                checkout_request_id = mpesa_post_data['Body']['stkCallback']['CheckoutRequestID']
-                callback_metadata = mpesa_post_data['Body']['stkCallback']['CallbackMetadata']['Item']
+#                 checkout_request_id = mpesa_post_data['Body']['stkCallback']['CheckoutRequestID']
+#                 callback_metadata = mpesa_post_data['Body']['stkCallback']['CallbackMetadata']['Item']
 
-                # Extract individual items from CallbackMetadata
-                mpesa_receipt_number = next((item['Value'] for item in callback_metadata if item['Name'] == 'MpesaReceiptNumber'), None)
-                transaction_date = next((item['Value'] for item in callback_metadata if item['Name'] == 'TransactionDate'), None)
+#                 # Extract individual items from CallbackMetadata
+#                 mpesa_receipt_number = next((item['Value'] for item in callback_metadata if item['Name'] == 'MpesaReceiptNumber'), None)
+#                 transaction_date = next((item['Value'] for item in callback_metadata if item['Name'] == 'TransactionDate'), None)
 
 
-                transaction = MPesaTransaction.objects.filter(transaction_id=checkout_request_id).first()
+#                 transaction = MPesaTransaction.objects.filter(transaction_id=checkout_request_id).first()
 
-                if transaction:
-                    transaction.transaction_date  = datetime.strptime(str(transaction_date), "%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M:%S")
-                    transaction.status = 'Success'
-                    transaction.mpesa_receipt_number  = mpesa_receipt_number 
-                    transaction.save()
+#                 if transaction:
+#                     transaction.transaction_date  = datetime.strptime(str(transaction_date), "%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M:%S")
+#                     transaction.status = 'Success'
+#                     transaction.mpesa_receipt_number  = mpesa_receipt_number 
+#                     transaction.save()
 
-                    return Response({"message": "Callback processed successfully"}, status=status.HTTP_200_OK)
+#                     return Response({"message": "Callback processed successfully"}, status=status.HTTP_200_OK)
             
-            if result_code != 0:
-                checkout_request_id = mpesa_post_data['Body']['stkCallback']['CheckoutRequestID']
-                transaction = MPesaTransaction.objects.filter(transaction_id=checkout_request_id).first()
-                if transaction:
-                    transaction.status = 'Failed'
-                    transaction.save()
+#             if result_code != 0:
+#                 checkout_request_id = mpesa_post_data['Body']['stkCallback']['CheckoutRequestID']
+#                 transaction = MPesaTransaction.objects.filter(transaction_id=checkout_request_id).first()
+#                 if transaction:
+#                     transaction.status = 'Failed'
+#                     transaction.save()
                 
-            return Response({"message": "Callback process failed!"}, status=status.HTTP_400_BAD_REQUEST)
+#             return Response({"message": "Callback process failed!"}, status=status.HTTP_400_BAD_REQUEST)
         
-        except KeyError as e:
-            return Response({"error": "Invalid callback data"}, status=status.HTTP_400_BAD_REQUEST)
+#         except KeyError as e:
+#             return Response({"error": "Invalid callback data"}, status=status.HTTP_400_BAD_REQUEST)
         
 
 
-
-class PaymentStatusView(APIView):
-
-    def get(self, request, transaction_id):
-        transaction = MPesaTransaction.objects.filter(transaction_id=transaction_id).first()
+def handle_callback(request):
+    # Assuming request.data contains the M-Pesa callback data
+    mpesa_post_data = request.data
+    
+    try:
+        # Extract necessary fields
+        result_code = mpesa_post_data['Body']['stkCallback']['ResultCode']
         
-        if not transaction:
-            return Response({"status": "Transaction not found"}, status=status.HTTP_404_NOT_FOUND)
+        if result_code == 0:
+            checkout_request_id = mpesa_post_data['Body']['stkCallback']['CheckoutRequestID']
+            callback_metadata = mpesa_post_data['Body']['stkCallback']['CallbackMetadata']['Item']
+
+            # Extract individual items from CallbackMetadata
+            mpesa_receipt_number = next((item['Value'] for item in callback_metadata if item['Name'] == 'MpesaReceiptNumber'), None)
+            transaction_date = next((item['Value'] for item in callback_metadata if item['Name'] == 'TransactionDate'), None)
+
+            transaction = MPesaTransaction.objects.filter(transaction_id=checkout_request_id).first()
+
+            if transaction:
+                transaction.transaction_date = datetime.strptime(str(transaction_date), "%Y%m%d%H%M%S").strftime("%Y-%m-%d %H:%M:%S")
+                transaction.status = 'Success'
+                transaction.mpesa_receipt_number = mpesa_receipt_number
+                transaction.save()
+
+                return Response({"message": "Callback processed successfully"}, status=status.HTTP_200_OK)
         
-        # Return the current status of the transaction
-        return Response({"status": transaction.status}, status=status.HTTP_200_OK)
+        if result_code != 0:
+            checkout_request_id = mpesa_post_data['Body']['stkCallback']['CheckoutRequestID']
+            transaction = MPesaTransaction.objects.filter(transaction_id=checkout_request_id).first()
+            if transaction:
+                transaction.status = 'Failed'
+                transaction.save()
+                
+        return Response({"message": "Callback process failed!"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    except KeyError as e:
+        return Response({"error": "Invalid callback data"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+# class PaymentStatusView():
+
+#     def get(self, request, transaction_id):
+#         transaction = MPesaTransaction.objects.filter(transaction_id=transaction_id).first()
+        
+#         if not transaction:
+#             return Response({"status": "Transaction not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+#         # Return the current status of the transaction
+#         return Response({"status": transaction.status}, status=status.HTTP_200_OK)
+def payment_status_view(request, transaction_id):
+    transaction = MPesaTransaction.objects.filter(transaction_id=transaction_id).first() 
+    if not transaction: 
+        return Response({"status": "Transaction not found"}, status=status.HTTP_404_NOT_FOUND) # Return the current status of the transaction 
+    return Response({"status": transaction.status}, status=status.HTTP_200_OK)

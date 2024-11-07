@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article
+from .models import Article, MPesaTransaction
 from django.contrib import admin
 
 # Register your models here.
@@ -14,4 +14,4 @@ class ArticleAdmin(admin.ModelAdmin):
  ordering = ['status', 'publish']
  show_facets = admin.ShowFacets.ALWAYS
 
-# admin.site.register(Article)
+admin.site.register(MPesaTransaction)
