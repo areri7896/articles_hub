@@ -27,9 +27,13 @@
     <div class="writer" style="text-align: center;">
          Published on {{ post.publish }} by {{ post.author }}
     </div>
+    {% if request.user == post.author %}
+
+    {% else %}
     <div class="btt" style="align-self: self-end;">
          <a href="{% url 'pay' %}"><button type="submit" class="btn btn-primary d-flex" style="border-radius: 25px; align-self: flex-end;">Download</button></a>
     </div>
+    {% endif %}
 </div>
 </div>
 

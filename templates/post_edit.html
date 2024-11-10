@@ -1,17 +1,20 @@
 <!-- templates/post_detail.html -->
 {% extends 'base.html' %}
+{% load crispy_forms_tags %} 
 {% block content %}
 <div class="container mb-3">
-<h1>Edit post {{ object.title }}</h1>
-<form action="" method="post">{% csrf_token %}
-    <div class="mb-3">
-        {{ form.title }}
-    </div>
-    <div class="mb-3">
-        {{ form.body }}
-    </div>
-<input type="submit" value="Update">
-</form>
+    <h1 class="d-flex text-align">{{ object.title }}</h1>
+    <form action="" method="post">{% csrf_token %}
+        <div class="mb-3">
+            {{ form.title|as_crispy_field }}
+        </div>
+        <div class="mb-3">
+            {{ form.body|as_crispy_field }}
+        </div>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-block">Update</button>
+        </div>
+    </form>
 </div>
 {% endblock content %}
 

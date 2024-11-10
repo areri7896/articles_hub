@@ -20,14 +20,11 @@ from .models import MPesaTransaction
 from decouple import config
 
 from rest_framework.views import APIView
-from .models import MPesaTransaction
-
-from decouple import config
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from datetime import datetime
-
+from django.views import generic
 
 from rest_framework.response import Response
 from rest_framework import status
@@ -101,11 +98,17 @@ class BlogCreateView(CreateView):
     template_name = 'post_new.html'
     fields = ['title', 'author', 'body', 'document', ]
 
+class SignupPageView(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/signup.html'
+
+
 @login_required
 def mpay(request):
     if request.method == 'POST':
-        phone_number = request.POST.get('phone')  # Get the phone number from the POST request
-        amount = request.POST.get('amount')  # Get the amount from the POST request
+        phone_number = request.POST.get('phone')
+        amount = request.POST.get('amount')
 
         cl = MpesaClient()
         account_reference = 'lasio'
@@ -121,7 +124,6 @@ def mpay(request):
         # return HttpResponse(f"Payment of {amount} has been initiated. Please check your phone!")
 
     else:
-        # If it's a GET request, simply display the payment form
         return render(request, 'payment.html')
     
 

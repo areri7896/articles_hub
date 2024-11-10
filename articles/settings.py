@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'django_daraja',
     # 'accounts',
     'rest_framework',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 REST_FRAMEWORK = {
@@ -106,16 +108,16 @@ DATABASES = {
 # cat myproject/settings.py
 
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ["POSTGRES_DB"],
-        "USER": os.environ["POSTGRES_USER"],
-        "PASSWORD": os.environ["POSTGRES_PASSWORD"],
-        "HOST": os.environ["POSTGRES_HOST"],
-        "PORT": os.environ["POSTGRES_PORT"],
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.environ["POSTGRES_DB"],
+#         "USER": os.environ["POSTGRES_USER"],
+#         "PASSWORD": os.environ["POSTGRES_PASSWORD"],
+#         "HOST": os.environ["POSTGRES_HOST"],
+#         "PORT": os.environ["POSTGRES_PORT"],
+#     }
+# }
 
 
 # Password validation
@@ -148,6 +150,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
@@ -179,6 +184,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'home'
+DEFAULT_FROM_EMAIL = 'admin@lasoi.com'
 
 # MPESA_ENVIRONMENT = os.getenv('MPESA_ENVIRONMENT')
 # MPESA_CONSUMER_KEY = os.getenv('MPESA_CONSUMER_KEY')
