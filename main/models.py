@@ -50,10 +50,24 @@ class MPesaTransaction(models.Model):
     transaction_id = models.CharField(max_length=100, unique=True, null=True, blank=True)
     phone_number = models.CharField(max_length=15)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(max_length=50, default="Pending")  # e.g., Pending, Success, Failed
+    status = models.CharField(max_length=50, default="Pending")
     transaction_date = models.DateTimeField(null=True, blank=True)
     mpesa_receipt_number = models.CharField(max_length=255,null=True, blank=True, unique=True )
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return f"{self.phone_number} - {self.amount} KES"
+
+
+
+class Comment(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=140)
+    article = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="article_comments")
+    def __str__(self):
+        return self.comment
+    def get_absolute_url(self):
+        return reverse('article_list')

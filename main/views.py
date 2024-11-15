@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Article
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import (CreateView, UpdateView, DeleteView) 
 from django.contrib.auth.forms import UserCreationForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -29,7 +30,6 @@ from django.views import generic
 from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime
-from main.models import MPesaTransaction
 
 from . import forms
 # Create your views here.
@@ -79,19 +79,21 @@ def logout_user(request):
     logout(request)
     return redirect('home')
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(UpdateView, LoginRequiredMixin):
     model = Article
     template_name = 'post_edit.html'
     fields = ['title', 'body', 'status']
+    login_url = 'account_login'
     # success_url = reverse_lazy('h') 
 
 
 
-class BlogDeleteView(DeleteView): # new
+class BlogDeleteView(DeleteView, LoginRequiredMixin): # new
     model = Article
     template_name = 'post_delete.html'
     success_url = reverse_lazy('home')
     message = 'deleted successfully'
+    login_url = 'account_login'
 
 class BlogCreateView(CreateView):
     model = Article
@@ -115,22 +117,36 @@ def mpay(request):
         transaction_desc = 'Pay'
         callback_url = 'https://vj6-meticulous-rumford.circumeo-apps.net/clb'
 
-            # Call the Mpesa API for payment (STK Push)
-        response = cl.stk_push(phone_number,int(amount), account_reference, transaction_desc, callback_url)
+        # Call the Mpesa API for payment (STK Push)
+        response = cl.stk_push(phone_number, int(amount), account_reference, transaction_desc, callback_url)
 
-            # Display a success message to the user
+        # Ensure to create an instance of MPesaTransaction
+        transaction = MPesaTransaction(
+            phone_number=phone_number,
+            user=request.user,
+            amount=amount,
+        )
+        transaction.save()
+
+        # Display a success message to the user
         messages.success(request, f"Payment of {amount} has been initiated. Please check your phone!")
         return render(request, 'payment_successful.html', {'amount': amount, 'desc': account_reference})
-        # return HttpResponse(f"Payment of {amount} has been initiated. Please check your phone!")
 
     else:
         return render(request, 'payment.html')
+
+
     
 
 def receipt(request):
 
     return render (request, 'receipt.html', {})
 
+
+
+def profile(request):
+
+    return render (request, 'registration/profile.html', {})
 
 
 # class HandleCallBackView(self, validated_data):

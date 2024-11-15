@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article, MPesaTransaction
+from .models import Article, MPesaTransaction, Comment
 from django.contrib import admin
 
 # Register your models here.
@@ -15,3 +15,4 @@ class ArticleAdmin(admin.ModelAdmin):
  show_facets = admin.ShowFacets.ALWAYS
 
 admin.site.register(MPesaTransaction)
+admin.site.register(Comment) 
