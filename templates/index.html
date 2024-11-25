@@ -11,7 +11,7 @@
         <p class="text-end"><b>{{ user.username }}</b></p>
         <p><a href="{% url 'logout' %}">Log out</a></p>
     {% else %}
-        <p class="text-end"><a href="{% url 'login' %}">Login</a></p>
+        <p class="text-end"><a href="{% url 'account_login' %}">Login</a></p>
     {% endif %}
     </div>
 

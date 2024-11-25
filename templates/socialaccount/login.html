@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load socialaccount %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="card-title">
+                        {% trans "Sign In" %}
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        {% trans "You are about to sign in using a third-party account from" %} {{ provider.name }}.
+                    </p>
+                    <form method="POST" action="{% provider_login_url provider.id process="login" %}">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                {% trans "Continue" %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

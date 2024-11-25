@@ -11,6 +11,17 @@ class LoginForm(forms.Form):
     password = forms.CharField(max_length=63, widget=forms.PasswordInput)
 
 
+# class CustomSignupForm(SignupForm):
+#     first_name = forms.CharField(max_length=30, label='First Name')
+#     last_name = forms.CharField(max_length=30, label='Last Name')
+
+#     def save(self, request):
+#         user = super(CustomSignupForm, self).save(request)
+#         user.first_name = self.cleaned_data['first_name']
+#         user.last_name = self.cleaned_data['last_name']
+#         user.save()
+#         return user
+
 
 class ArticleForm(forms.ModelForm):
     title = forms.CharField(

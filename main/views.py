@@ -13,7 +13,6 @@ from django.http import Http404
 
 from django_daraja.mpesa.core import MpesaClient
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib import messages
 # from .query import query_stk_status
@@ -31,7 +30,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime
 
-from . import forms
+from .forms import forms
 # Create your views here.
 def home(request):
     art_list = Article.objects.all()
@@ -75,6 +74,17 @@ def login(request):
         request, 'authentication/login.html', context={'form': form, 'message': message})
 
 
+# def signup_view(request):
+#     form = CustomSignupForm
+#     if request.method == 'POST':
+#         form = CustomSignupForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#     else:
+#         form = CustomSignupForm()
+
+#     return render(request, 'signup.html', {'form': form})
+
 def logout_user(request):
     logout(request)
     return redirect('home')
@@ -102,11 +112,11 @@ class BlogCreateView(CreateView):
 
 class SignupPageView(generic.CreateView):
     form_class = UserCreationForm
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('account_login')
     template_name = 'registration/signup.html'
 
 
-@login_required
+@login_required(login_url = 'account_login')
 def mpay(request):
     if request.method == 'POST':
         phone_number = request.POST.get('phone')
